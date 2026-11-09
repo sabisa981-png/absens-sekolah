@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Daftar Akun{% endblock %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-stat p-4">
+                <h3 class="fw-bold text-center mb-4"><i class="fas fa-user-plus text-primary me-2"></i>Daftar Akun</h3>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.role.label(class="form-label fw-bold") }}
+                        {{ form.role(class="form-select") }}
+                        <small class="text-muted">Pilih apakah Anda mendaftar sebagai Murid atau Orang Tua.</small>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.nis.label(class="form-label") }}
+                        {{ form.nis(class="form-control", placeholder="Masukkan NIS Anak/Siswa") }}
+                        <small class="text-muted">Minta NIS ini ke Guru/Admin sekolah.</small>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control", placeholder="Buat username unik") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", placeholder="Minimal 6 karakter") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.konfirmasi_password.label(class="form-label") }}
+                        {{ form.konfirmasi_password(class="form-control", placeholder="Ulangi password") }}
+                    </div>
+                    {{ form.submit(class="btn btn-success w-100 mb-3") }}
+                </form>
+                <div class="text-center">
+                    <small>Sudah punya akun? <a href="{{ url_for('main.login') }}">Login di sini</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

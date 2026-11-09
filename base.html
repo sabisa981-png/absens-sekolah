@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Absensi Sekolah{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sidebar-width: 260px; --primary-color: #1e3c72; }
+        body { background: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
+        .sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); color: white; padding-top: 20px; z-index: 1000; transition: all 0.3s; }
+        .sidebar a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 12px 20px; display: block; border-left: 3px solid transparent; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.1); border-left-color: #fff; color: white; }
+        .sidebar .brand { padding: 20px; font-size: 1.3rem; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; }
+        .main-content { margin-left: var(--sidebar-width); padding: 20px; transition: all 0.3s; }
+        .card-stat { border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s; }
+        .card-stat:hover { transform: translateY(-5px); }
+        .table-modern { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .table-modern thead { background: var(--primary-color); color: white; }
+        @media (max-width: 768px) { .sidebar { margin-left: calc(-1 * var(--sidebar-width)); } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand"><i class="fas fa-school me-2"></i>Absensi Sekolah</div>
+        <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+        <a href="{{ url_for('main.ubah_password') }}"><i class="fas fa-key me-2"></i>Ubah Password</a>
+        
+        {% if current_user.role == 'guru' %}
+            <a href="{{ url_for('main.guru_absensi') }}"><i class="fas fa-calendar-check me-2"></i>Input Absensi</a>
+            <a href="{{ url_for('main.guru_nilai') }}"><i class="fas fa-star me-2"></i>Input Nilai</a>
+            <a href="{{ url_for('main.guru_prestasi') }}"><i class="fas fa-trophy me-2"></i>Input Prestasi</a>
+            <a href="{{ url_for('main.guru_pelanggaran') }}"><i class="fas fa-exclamation-triangle me-2"></i>Input Pelanggaran</a>
+            <a href="{{ url_for('main.guru_pesan') }}"><i class="fas fa-envelope me-2"></i>Pesan Orang Tua</a>
+        {% endif %}
+        
+        <hr class="text-white-50 mx-3">
+        <a href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+    </div>
+    
+    <div class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

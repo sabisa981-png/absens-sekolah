@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Input Pelanggaran{% endblock %}
+{% block content %}
+<h2 class="fw-bold mb-4">Input Pelanggaran Siswa</h2>
+
+<div class="card card-stat p-4 mb-4">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Pilih Siswa</label>
+                {{ form.siswa_id(class="form-select") }}
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Jenis Pelanggaran</label>
+                {{ form.jenis(class="form-control", placeholder="Contoh: Terlambat") }}
+            </div>
+            <div class="col-md-1">
+                <label class="form-label fw-bold">Poin</label>
+                {{ form.poin(class="form-control", placeholder="10") }}
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-bold">Tanggal</label>
+                {{ form.tanggal(class="form-control", placeholder="YYYY-MM-DD") }}
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-bold">Keterangan</label>
+                {{ form.keterangan(class="form-control", placeholder="Opsional") }}
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                {{ form.submit(class="btn btn-danger w-100") }}
+            </div>
+        </div>
+    </form>
+</div>
+
+<h5 class="fw-bold mt-5 mb-3">20 Pelanggaran Terakhir</h5>
+<div class="table-modern p-3">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Nama Siswa</th>
+                <th>Pelanggaran</th>
+                <th>Poin</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in riwayat %}
+            <tr>
+                <td>{{ p.tanggal }}</td>
+                <td>{{ p.siswa.nama }}</td>
+                <td>{{ p.jenis }}</td>
+                <td><span class="badge bg-danger">{{ p.poin }} Poin</span></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">Belum ada data pelanggaran.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

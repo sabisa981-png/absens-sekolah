@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Login - Absensi Sekolah{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 400px;">
+        <div class="card-body p-5">
+            <h3 class="text-center fw-bold mb-4"><i class="fas fa-school text-primary me-2"></i>Absensi Sekolah</h3>
+            
+            <!-- Tambahan autocomplete="off" agar browser tidak mengisi otomatis -->
+            <form method="POST" autocomplete="off">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-control form-control-lg", placeholder="Masukkan username", autocomplete="off") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control form-control-lg", placeholder="Masukkan password", autocomplete="new-password") }}
+                </div>
+                {{ form.submit(class="btn btn-primary btn-lg w-100") }}
+            </form>
+            
+            <hr class="my-4">
+            
+            <div class="text-center">
+                <small>Belum punya akun? <br> 
+                    <a href="{{ url_for('main.register') }}" class="fw-bold text-success text-decoration-none">
+                        Daftar sebagai Murid / Orang Tua di sini
+                    </a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

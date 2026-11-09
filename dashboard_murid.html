@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Murid{% endblock %}
+{% block content %}
+<h2 class="fw-bold mb-4">Simurid: {{ siswa.nama if siswa else '-' }}</h2>
+
+<!-- FITUR ABSEN MANDIRI -->
+<div class="card card-stat p-4 mb-4">
+    <h5 class="fw-bold"><i class="fas fa-fingerprint me-2 text-primary"></i>Absensi Hari Ini</h5>
+    {% if siswa %}
+        {% if sudah_absen %}
+            <div class="alert alert-success mb-0"><i class="fas fa-check-circle me-2"></i>Anda sudah melakukan absensi hari ini. Terima kasih!</div>
+        {% else %}
+            <p>Silakan isi kehadiran Anda hari ini:</p>
+            <form action="{{ url_for('main.murid_absen') }}" method="POST" class="d-flex gap-2">
+                <button type="submit" name="status" value="Hadir" class="btn btn-primary">Hadir</button>
+                <button type="submit" name="status" value="Izin" class="btn btn-warning">Izin</button>
+                <button type="submit" name="status" value="Sakit" class="btn btn-info">Sakit</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-danger mb-0">Data siswa tidak ditemukan.</div>
+    {% endif %}
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card card-stat p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-calendar-check me-2 text-primary"></i>Riwayat Kehadiran</h5>
+            <ul class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+                {% for a in absensi %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ a.tanggal }}
+                    <span class="badge bg-info rounded-pill">{{ a.status }}</span>
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">Belum ada data.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stat p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-trophy me-2 text-success"></i>Prestasi Saya</h5>
+            <ul class="list-group list-group-flush">
+                {% for p in prestasi %}
+                <li class="list-group-item">{{ p.judul }} <br><small class="text-muted">{{ p.tanggal }}</small></li>
+                {% else %}
+                <li class="list-group-item text-muted">Belum ada prestasi.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

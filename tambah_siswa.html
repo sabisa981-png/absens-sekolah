@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Tambah Siswa{% endblock %}
+{% block content %}
+<h2 class="fw-bold mb-4">Tambah Data Siswa</h2>
+<div class="card card-stat p-4">
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i> <strong>Informasi:</strong> Guru hanya perlu memasukkan data dasar siswa. Akun untuk Murid dan Orang Tua akan didaftarkan sendiri oleh mereka melalui menu <b>Daftar</b> di halaman Login menggunakan NIS siswa ini.
+    </div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="row g-3">
+            <div class="col-md-6">{{ form.nama.label }} {{ form.nama(class="form-control") }}</div>
+            <div class="col-md-6">{{ form.nis.label }} {{ form.nis(class="form-control") }}</div>
+            <div class="col-md-6">{{ form.kelas.label }} {{ form.kelas(class="form-control") }}</div>
+            <div class="col-md-6">{{ form.jenis_kelamin.label }} {{ form.jenis_kelamin(class="form-select") }}</div>
+            <div class="col-12 mt-4">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('main.dashboard_guru') }}" class="btn btn-secondary">Batal</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

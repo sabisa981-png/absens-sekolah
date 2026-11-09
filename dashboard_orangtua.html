@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Orang Tua{% endblock %}
+{% block content %}
+<h2 class="fw-bold mb-4">Pantauan Orang Tua</h2>
+{% if siswa %}
+<div class="alert alert-info rounded-4 shadow-sm">
+    <i class="fas fa-child me-2"></i> Memantau: <strong>{{ siswa.nama }}</strong> ({{ siswa.kelas }})
+</div>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card card-stat p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-calendar-check me-2 text-primary"></i>Riwayat Kehadiran</h5>
+            <ul class="list-group list-group-flush">
+                {% for a in absensi %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ a.tanggal }}
+                    <span class="badge bg-{{ 'success' if a.status == 'Hadir' else 'warning' }} rounded-pill">{{ a.status }}</span>
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">Belum ada data.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stat p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-star me-2 text-warning"></i>Nilai Harian</h5>
+            <ul class="list-group list-group-flush">
+                {% for n in nilai %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ n.mata_pelajaran }} ({{ n.tanggal }})
+                    <span class="badge bg-primary rounded-pill">{{ n.nilai }}</span>
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">Belum ada data.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stat p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-trophy me-2 text-success"></i>Prestasi</h5>
+            <ul class="list-group list-group-flush">
+                {% for p in prestasi %}
+                <li class="list-group-item">{{ p.judul }} <br><small class="text-muted">{{ p.tanggal }}</small></li>
+                {% else %}
+                <li class="list-group-item text-muted">Belum ada data.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-stat p-4 h-100">
+            <h5 class="fw-bold"><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Pelanggaran</h5>
+            <ul class="list-group list-group-flush">
+                {% for p in pelanggaran %}
+                <li class="list-group-item">{{ p.jenis }} (Poin: {{ p.poin }}) <br><small class="text-muted">{{ p.tanggal }}</small></li>
+                {% else %}
+                <li class="list-group-item text-muted">Tidak ada pelanggaran.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="card card-stat p-4 mt-4">
+    <h5 class="fw-bold"><i class="fas fa-comment-dots me-2 text-primary"></i>Kirim Pesan / Komentar ke Guru</h5>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-2">{{ form.isi(class="form-control", rows="3", placeholder="Tulis pesan atau izin...") }}</div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+    <hr>
+    <h6 class="fw-bold">Riwayat Pesan Anda</h6>
+    {% for p in pesan %}
+    <div class="card mb-2 border-0 shadow-sm">
+        <div class="card-body">
+            <p class="mb-1">{{ p.isi }}</p>
+            <small class="text-muted">{{ p.tanggal }}</small>
+            {% if p.balasan %}
+            <div class="mt-2 p-2 bg-light rounded"><strong>Balasan Guru:</strong> {{ p.balasan }}</div>
+            {% else %}
+            <small class="text-danger">Menunggu balasan...</small>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-danger">Akun ini belum terhubung dengan data siswa.</div>
+{% endif %}
+{% endblock %}
